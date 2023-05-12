@@ -10,9 +10,13 @@ from dotenv import load_dotenv
 from urllib.parse import urljoin
 
 
-def parse_book_page(page_url):
+def get_book_title(page_url):
     response = requests.get(page_url)
     response.raise_for_status()
+    return parse_book_page(response)
+
+
+def parse_book_page(response):
     soup = BeautifulSoup(response.text, 'lxml')
     if soup.select_one('h1'):
         title, author = soup.select_one('h1').text.split('::')
