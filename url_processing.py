@@ -2,7 +2,13 @@ import requests
 import os
 
 from urllib.parse import urlparse
-from pathvalidate import sanitize_filename
+
+
+def download_image(url, file_name, payload=None):
+    response = requests.get(url, payload)
+    response.raise_for_status()
+    with open(file_name, 'wb') as file:
+        file.write(response.content)
 
 
 def get_file_type(url):
@@ -11,14 +17,11 @@ def get_file_type(url):
     return os.path.splitext(path)[1][1:]
 
 
-def download_txt(book_url, file_name, folder='books/'):
+def download_txt(book_url, file_name):
     response = requests.get(book_url)
     response.raise_for_status()
-    file_name = sanitize_filename(file_name)
-    os.makedirs(folder, exist_ok=True)
-    with open(f'{os.path.join(folder, file_name)}.txt', 'w') as file:
+    with open(file_name, 'w') as file:
         file.write(response.text)
-    return(f'{os.path.join(folder, file_name)}.txt')
 
 
 def check_for_redirect(response):

@@ -3,6 +3,8 @@ import os
 import requests
 import url_processing
 
+from pathvalidate import sanitize_filename
+
 
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
@@ -14,10 +16,13 @@ def get_book_title(page_url):
     response.raise_for_status()
     soup = BeautifulSoup(response.text, 'lxml')
     title_tag = soup.find('body').find('table').find('td', class_='ow_px_td').find('div').find('h1').text
-    title_tag = title_tag.split('   ::   ')
-    title_tag[0].strip()
-    title_tag[1].strip()
-    return title_tag[0]
+    title_tag = title_tag.split('::')[0].strip()
+    image_tag = soup.find('body').find('table').find('td', class_='ow_px_td').\
+        find('div', class_='bookimage').find('a').find('img')['src']
+    return {
+        'title': title_tag,
+        'image': image_tag,
+    }
 
 
 def parse_book_page(response):
@@ -37,20 +42,28 @@ def parse_book_page(response):
 
 
 def main():
+    base_url = 'https://tululu.org'
     load_dotenv()
     os.getenv('DEBUG')
-    media_dir = os.getenv('MEDIA_DIR')
-    os.makedirs(media_dir, exist_ok=True)
-    for book_id in range(68, 69, 1):
-        book_url = f'https://tululu.org/txt.php?id=321{book_id}'
-        page_url = f'https://tululu.org/b{book_id}'
-        file_name = get_book_title(page_url)
+    books_dir = os.getenv('BOOKS_DIR')
+    images_dir = os.getenv('IMAGES_DIR')
+    os.makedirs(books_dir, exist_ok=True)
+    os.makedirs(images_dir, exist_ok=True)
+    for book_id in range(1, 10, 1):
+        book_url = f'{base_url}/txt.php?id=321{book_id}'
+        book_title = get_book_title(f'{base_url}/b{book_id}')
+        image_url = f'{base_url}/shots/{book_title["image"]}'
         try:
-            url_processing.download_txt(book_url, file_name, book_id)
-        except requests.exceptions.HTTPError as err:
-            print(f"book_id {book_id}: {err}")
+            file_name = sanitize_filename(book_title['title'])
+            file_name = f'{os.path.join(books_dir, file_name)}.txt'
+            url_processing.download_txt(book_url, file_name)
+            expansion = url_processing.get_file_type(image_url)
+            file_name = f'{os.path.join(books_dir, book_title["title"])}.{expansion}'
+            url_processing.download_image(image_url, file_name)
+        except requests.exceptions.HTTPError as net_error:
+            print(f"book_id {book_id}: {net_error}")
         except IndexError:
-            print(f"Can't create book {file_name}, it does not exist!")
+            print(f"Unable to create a book {book_title['title']}, it doesn't exist!")
 
 
 if __name__ == '__main__':
