@@ -17,8 +17,11 @@ def get_book_title(page_url):
     soup = BeautifulSoup(response.text, 'lxml')
     title_tag = soup.find('body').find('table').find('td', class_='ow_px_td').find('div').find('h1').text
     title_tag = title_tag.split('::')[0].strip()
-    image_tag = soup.find('body').find('table').find('td', class_='ow_px_td').\
-        find('div', class_='bookimage').find('a').find('img')['src']
+    image_tag = soup.find('body').find('table').find('td', class_='ow_px_td').find('div', class_='bookimage')
+    if image_tag:
+        image_tag = image_tag.find('a').find('img')['src']
+    else:
+        image_tag = None
     return {
         'title': title_tag,
         'image': image_tag,
@@ -52,14 +55,15 @@ def main():
     for book_id in range(1, 10, 1):
         book_url = f'{base_url}/txt.php?id=321{book_id}'
         book_title = get_book_title(f'{base_url}/b{book_id}')
-        image_url = f'{base_url}/shots/{book_title["image"]}'
         try:
             file_name = sanitize_filename(book_title['title'])
             file_name = f'{os.path.join(books_dir, file_name)}.txt'
             url_processing.download_txt(book_url, file_name)
-            expansion = url_processing.get_file_type(image_url)
-            file_name = f'{os.path.join(books_dir, book_title["title"])}.{expansion}'
-            url_processing.download_image(image_url, file_name)
+            if book_title["image"]:
+                image_url = f'{base_url}{book_title["image"]}'
+                expansion = url_processing.get_file_type(image_url)
+                file_name = f'{os.path.join(images_dir, book_title["title"])}.{expansion}'
+                url_processing.download_image(image_url, file_name)
         except requests.exceptions.HTTPError as net_error:
             print(f"book_id {book_id}: {net_error}")
         except IndexError:
