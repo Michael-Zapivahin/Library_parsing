@@ -1,7 +1,7 @@
-import requests
 import os
-
 from urllib.parse import urlparse
+
+import requests
 
 
 def download_image(url, file_name, payload=None):
@@ -17,8 +17,8 @@ def get_file_type(url):
     return os.path.splitext(path)[1][1:]
 
 
-def download_txt(book_url, file_name):
-    response = requests.get(book_url)
+def download_txt(book_url, file_name, params=None):
+    response = requests.get(book_url, params=params)
     response.raise_for_status()
     with open(file_name, 'w') as file:
         file.write(response.text)
