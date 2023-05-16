@@ -25,5 +25,5 @@ def download_txt(book_url, file_name, params=None):
 
 
 def check_for_redirect(response):
-    if response.history:
-        raise requests.exceptions.HTTPError(response.history[0])
+    if response.is_redirect:
+        raise requests.exceptions.HTTPError('redirect')
