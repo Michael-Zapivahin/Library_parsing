@@ -49,8 +49,8 @@ def download_books(start_id, end_id, books_dir, images_dir):
                 url_processing.download_image(image_url, file_name)
         except requests.exceptions.HTTPError as net_error:
             print(f"book_id {book_id}: {net_error}")
-        except IndexError:
-            print(f"Unable to create a book {book_description['title']}, it doesn't exist!")
+        except AttributeError:
+            print(f"The book  {book_description['title']} hasn't the image.")
         except requests.exceptions.ConnectionError as connect_error:
             print(f"book_id {book_id}: {connect_error}")
             time.sleep(10)
