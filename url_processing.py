@@ -17,14 +17,6 @@ def get_file_type(url):
     return os.path.splitext(path)[1][1:]
 
 
-def download_txt(book_url, file_name, params=None):
-    response = requests.get(book_url, params=params)
-    response.raise_for_status()
-    check_for_redirect(response)
-    with open(file_name, 'w') as file:
-        file.write(response.text)
-
-
 def check_for_redirect(response):
-    if response.is_redirect:
+    if response.history:
         raise requests.exceptions.HTTPError('redirect')
