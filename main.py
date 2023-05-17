@@ -10,6 +10,10 @@ from pathvalidate import sanitize_filename
 import url_processing
 
 
+class ImageAttributeError(AttributeError):
+    pass
+
+
 def parse_book_page(response):
     soup = BeautifulSoup(response.text, 'lxml')
     title_tag = soup.find('table').find('h1').text.split('::')[0].strip()
@@ -42,18 +46,19 @@ def download_books(start_id, end_id, books_dir, images_dir):
             file_name = sanitize_filename(book_description['title'])
             file_name = f'{os.path.join(books_dir, file_name)}.txt'
             url_processing.download_txt(book_url, file_name, params)
-            if book_description["image"]:
-                image_url = f'{base_url}{book_description["image"]}'
-                expansion = url_processing.get_file_type(image_url)
-                file_name = f'{os.path.join(images_dir, book_description["title"])}.{expansion}'
-                url_processing.download_image(image_url, file_name)
+            if book_description["image"] is None:
+                raise ImageAttributeError
+            image_url = f'{base_url}{book_description["image"]}'
+            expansion = url_processing.get_file_type(image_url)
+            file_name = f'{os.path.join(images_dir, book_description["title"])}.{expansion}'
+            url_processing.download_image(image_url, file_name)
         except requests.exceptions.HTTPError as net_error:
             print(f"book_id {book_id}: {net_error}")
-        except AttributeError:
-            print(f"The book  {book_description['title']} hasn't the image.")
         except requests.exceptions.ConnectionError as connect_error:
             print(f"book_id {book_id}: {connect_error}")
             time.sleep(10)
+        except ImageAttributeError:
+            print(f"there is no image for the book {book_id}")
 
 
 def main():
@@ -65,6 +70,7 @@ def main():
     parser.add_argument('end_id', help='Конечный ID книги', type=int)
     args = parser.parse_args()
     download_books(args.start_id, args.end_id, books_dir, images_dir)
+
 
 
 if __name__ == '__main__':
