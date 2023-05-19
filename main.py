@@ -31,16 +31,11 @@ def parse_book_page(response):
     }
 
 
-def download_books(start_id, end_id, books_dir, images_dir):
-    base_url = 'https://tululu.org'
-    for book_id in range(start_id, end_id, 1):
-        download_book(base_url, book_id, books_dir, images_dir)
-
-
 def download_books_genre(genre, books_dir, images_dir, comments_dir, start_page, end_page):
     base_url = 'https://tululu.org'
     books_dir = os.path.join(books_dir, f'genre_{genre}')
     images_dir = os.path.join(images_dir, f'genre_{genre}')
+    comments_dir = os.path.join(comments_dir, f'genre_{genre}')
     os.makedirs(books_dir, exist_ok=True)
     os.makedirs(images_dir, exist_ok=True)
     os.makedirs(comments_dir, exist_ok=True)
@@ -49,10 +44,10 @@ def download_books_genre(genre, books_dir, images_dir, comments_dir, start_page,
         soup = parse_genre.get_soup(genre_page_url)
         for book_id in parse_genre.get_book_path(soup):
             book_number = ''.join(filter(lambda x: x.isdigit(), book_id))
-            download_book(base_url, book_number, books_dir, images_dir)
+            download_book(base_url, book_number, books_dir, images_dir, comments_dir)
 
 
-def download_book(base_url, book_id, books_dir, images_dir):
+def download_book(base_url, book_id, books_dir, images_dir, comments_dir):
     params = {'id': f'{book_id}'}
     try:
         book_response = requests.get(f'{base_url}/txt.php', params)
@@ -85,7 +80,7 @@ def main():
     os.makedirs(comments_dir, exist_ok=True)
     parser = argparse.ArgumentParser(description='Script download books')
     parser.add_argument('-s', '--start_id', help='first book id (default: 1)', type=int, default=1)
-    parser.add_argument('-e', '--end_id', help='last book id (default: 0)', type=int, default=1)
+    parser.add_argument('-e', '--end_id', help='last book id (default: 0)', type=int, default=0)
     args = parser.parse_args()
     start_id = args.start_id
     end_id = args.end_id

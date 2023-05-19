@@ -1,4 +1,3 @@
-from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
@@ -15,18 +14,3 @@ def get_book_path(soup):
     for book in tables:
         books_paths.append(book.find('a')['href'])
     return books_paths
-
-
-def main():
-    url = "https://tululu.org/"
-    genre = 55
-    for page in range(1, 10, 1):
-        genre_page_url = f"{url}l{genre}/{page}/"
-        soup = get_soup(genre_page_url)
-        books_paths = get_book_path(soup)
-        books_urls = [urljoin(url, path) for path in books_paths]
-        print(books_urls)
-
-
-if __name__ == '__main__':
-    main()
