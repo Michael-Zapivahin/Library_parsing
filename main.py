@@ -1,7 +1,6 @@
 import argparse
 import os
 import time
-import re
 
 import requests
 from bs4 import BeautifulSoup
@@ -14,15 +13,22 @@ import parse_tululu_category as parse_genre
 
 def parse_book_page(response):
     soup = BeautifulSoup(response.text, 'lxml')
-    title_tag = soup.find('table').find('h1').text.split('::')[0].strip()
-    image_tag = soup.find('table').find('div', class_='bookimage').find('img')['src']
+    title_tag = soup.select_one("table.tabs h1")
+    raw_title, raw_author = title_tag.text.split("::")
+    title = raw_title.strip()
+    author = raw_author.strip()
+    raw_image = soup.select_one('body div.bookimage img')['src']
+    image = os.path.split(raw_image)[-1]
     comments = soup.select('.texts .black')
-    genres = soup.select('span.d_book a')
+    comments = [comment.text for comment in comments]
+    genres_tags = soup.select("span.d_book a")
+    genres = [tag.text for tag in genres_tags]
     return {
-        'title': title_tag,
-        'image': image_tag,
-        'comments': [comment.text for comment in comments],
-        'genres': [genre.text for genre in genres],
+        'title': title,
+        'author': author,
+        'image': image,
+        'comments': comments,
+        'genres': genres,
     }
 
 
@@ -75,9 +81,8 @@ def main():
     os.makedirs(books_dir, exist_ok=True)
     images_dir = os.getenv('IMAGES_DIR')
     os.makedirs(images_dir, exist_ok=True)
-    # download_books(238, 241, books_dir, images_dir)
-    download_books_genre(55, books_dir, images_dir)
-    # download_book('https://tululu.org', str('239'), books_dir, images_dir)
+    download_books(1, 4, books_dir, images_dir)
+    # download_books_genre(55, books_dir, images_dir)
     # parser = argparse.ArgumentParser(description='Script download books between ID start and ID end')
     # parser.add_argument('start_id', help='Начальный ID книги', type=int)
     # parser.add_argument('end_id', help='Конечный ID книги', type=int)

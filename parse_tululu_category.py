@@ -10,7 +10,7 @@ def get_soup(genre_page_url):
 
 
 def get_book_path(soup):
-    tables = soup.find_all('table', class_='d_book')
+    tables = soup.select("table.d_book")
     books = []
     for book in tables:
         books.append(book.find('a')['href'])
@@ -25,8 +25,8 @@ def main():
         genre_page_url = f"{url}l{genre}/{page}/"
         soup = get_soup(genre_page_url)
         books_paths = get_book_path(soup)
-        # books_url = [urljoin(url, path) for path in books_paths]
-        print(books_paths)
+        books_url = [urljoin(url, path) for path in books_paths]
+        print(books_url)
 
 
 if __name__ == '__main__':
