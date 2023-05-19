@@ -83,17 +83,12 @@ def main():
     os.makedirs(images_dir, exist_ok=True)
     comments_dir = os.getenv('COMMENTS')
     os.makedirs(comments_dir, exist_ok=True)
-
-
-
-    # parser = argparse.ArgumentParser(description='Script download books')
-    # parser.add_argument('-s', '--start_id', help='first book id (default: 1)', type=int, default=1)
-    # parser.add_argument('-e', '--end_id', help='last book id (default: 0)', type=int, default=1)
-    # args = parser.parse_args()
-
-
-    start_id = 700
-    end_id = 0
+    parser = argparse.ArgumentParser(description='Script download books')
+    parser.add_argument('-s', '--start_id', help='first book id (default: 1)', type=int, default=1)
+    parser.add_argument('-e', '--end_id', help='last book id (default: 0)', type=int, default=1)
+    args = parser.parse_args()
+    start_id = args.start_id
+    end_id = args.end_id
     if end_id == 0:
         base_url = 'https://tululu.org'
         genre_page_url = f"{base_url}/l{55}"
