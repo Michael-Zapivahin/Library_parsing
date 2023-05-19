@@ -25,8 +25,8 @@ def main():
         genre_page_url = f"{url}l{genre}/{page}/"
         soup = get_soup(genre_page_url)
         books_paths = get_book_path(soup)
-        books_url = [urljoin(url, path) for path in books_paths]
-        print(books_url)
+        # books_url = [urljoin(url, path) for path in books_paths]
+        print(books_paths)
 
 
 if __name__ == '__main__':
