@@ -2,6 +2,7 @@
 dvmn.svg
 /books
 /images
+/comments
 /bin
 /lib
 /venv
@@ -44,5 +45,4 @@ Temporary Items
 *.icloud
 .env
 env.textClipping
-txt/Алиби.txt
-Алиби
+

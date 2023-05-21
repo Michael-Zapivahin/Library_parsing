@@ -72,7 +72,7 @@ def save_comments(comments_dir, description, root_dir, json_path):
     book_description = {
         'Title: ': description['title'],
         'Autor: ': description['author'],
-        'Genre: ': description['genre'],
+        'Genre: ': description['genres'],
         'Comments: ': description['comments'],
     }
     if root_dir:
@@ -130,9 +130,13 @@ def main():
 
         for page in range(args.start_page, end_id + 1, 1):
             genre_page_url = f"{base_url}/l{genre_id}/{page}/"
-            soup = parse_genre.get_soup(genre_page_url)
-            for book_id in parse_genre.get_books_id(soup):
-                book_number = ''.join(filter(lambda x: x.isdigit(), book_id))
+            try:
+                soup = parse_genre.get_soup(genre_page_url)
+            except requests.exceptions.HTTPError or requests.exceptions.ConnectionError:
+                time.sleep(10)
+                continue
+            for book_path in parse_genre.get_books_book_paths(soup):
+                book_number = ''.join(filter(lambda x: x.isdigit(), book_path))
                 download_book(
                     base_url, book_number, books_dir,
                     images_dir, comments_dir, args.root_dir,
