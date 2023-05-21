@@ -15,9 +15,11 @@ pip install -r requirements.txt
 
 #### Variables:
 
-`BOOKS_DIR` directory for saving your books, `default='books'`
+`BOOKS_DIR` folder for saving your books, `default='books'`
 
-`IMAGES_DIR` directory for saving your pictures, `default='images'`
+`IMAGES_DIR` folder for saving your pictures, `default='images'`
+
+`COMMENTS_DIR` folder for saving book's comment `default='comments'`
 
 ### How to start
 
