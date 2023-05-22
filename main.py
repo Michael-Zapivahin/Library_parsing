@@ -37,35 +37,32 @@ def download_book(
         images_dir, comments_dir, root_dir,
         skip_img, skip_txt, json_path
 ):
-    try:
-        book_response = requests.get(f'{base_url}/txt.php',  {'id': f'{book_id}'})
-        book_response.raise_for_status()
-        url_processing.check_for_redirect(book_response)
-        response = requests.get(f'{base_url}/b{book_id}')
-        book_description = parse_book_page(response)
+    book_response = requests.get(f'{base_url}/txt.php', {'id': f'{book_id}'})
+    book_response.raise_for_status()
+    url_processing.check_for_redirect(book_response)
+    response = requests.get(f'{base_url}/b{book_id}')
+    response.raise_for_status()
+    url_processing.check_for_redirect(response)
+    book_description = parse_book_page(response)
 
-        if not skip_txt:
-            file_name = sanitize_filename(book_description['title'])
-            if root_dir:
-                books_dir = os.path.join(root_dir, books_dir)
-            file_name = f'{os.path.join(books_dir, file_name)}.txt'
-            save_comments(comments_dir, book_description, root_dir, json_path)
-            with open(file_name, 'w') as file:
-                file.write(book_response.text)
+    if not skip_txt:
+        file_name = sanitize_filename(book_description['title'])
+        if root_dir:
+            books_dir = os.path.join(root_dir, books_dir)
+        file_name = f'{os.path.join(books_dir, file_name)}.txt'
+        save_comments(comments_dir, book_description, root_dir, json_path)
+        with open(file_name, 'w') as file:
+            file.write(book_response.text)
 
-        if not skip_img:
-            image_url = f'{base_url}/{book_description["image"]}'
-            expansion = url_processing.get_file_type(image_url)
-            if root_dir:
-                images_dir = os.path.join(root_dir, images_dir)
-            file_name = f'{os.path.join(images_dir, book_description["title"])}.{expansion}'
-            url_processing.download_image(image_url, file_name)
+    if not skip_img:
+        image_url = f'{base_url}/{book_description["image"]}'
+        expansion = url_processing.get_file_type(image_url)
+        if root_dir:
+            images_dir = os.path.join(root_dir, images_dir)
+        file_name = f'{os.path.join(images_dir, book_description["title"])}.{expansion}'
+        url_processing.download_image(image_url, file_name)
 
-    except requests.exceptions.HTTPError as net_error:
-        print(f'book_id {book_id}: {net_error}')
-    except requests.exceptions.ConnectionError as connect_error:
-        print(f'book_id {book_id}: {connect_error}')
-        time.sleep(10)
+
 
 
 def save_comments(comments_dir, description, root_dir, json_path):
@@ -120,29 +117,33 @@ def main():
             print(f'{connect_error}')
             return
 
-    if args.start_page < end_id:
-        books_dir = os.path.join(books_dir, f'genre_{genre_id}')
-        images_dir = os.path.join(images_dir, f'genre_{genre_id}')
-        comments_dir = os.path.join(comments_dir, f'genre_{genre_id}')
-        os.makedirs(books_dir, exist_ok=True)
-        os.makedirs(images_dir, exist_ok=True)
-        os.makedirs(comments_dir, exist_ok=True)
+    if args.start_page >= end_id:
+        return
 
-        for page in range(args.start_page, end_id + 1, 1):
-            genre_page_url = f"{base_url}/l{genre_id}/{page}/"
+    books_dir = os.path.join(books_dir, f'genre_{genre_id}')
+    images_dir = os.path.join(images_dir, f'genre_{genre_id}')
+    comments_dir = os.path.join(comments_dir, f'genre_{genre_id}')
+    os.makedirs(books_dir, exist_ok=True)
+    os.makedirs(images_dir, exist_ok=True)
+    os.makedirs(comments_dir, exist_ok=True)
+
+    for page in range(args.start_page, end_id + 1, 1):
+        genre_page_url = f"{base_url}/l{genre_id}/{page}/"
+        try:
+            soup = parse_genre.get_soup(genre_page_url)
+        except requests.exceptions.HTTPError or requests.exceptions.ConnectionError:
+            time.sleep(10)
+            continue
+        for book_path in parse_genre.get_books_urls(soup):
+            book_number = ''.join(filter(lambda x: x.isdigit(), book_path))
             try:
-                soup = parse_genre.get_soup(genre_page_url)
-            except requests.exceptions.HTTPError or requests.exceptions.ConnectionError:
-                time.sleep(10)
-                continue
-            for book_path in parse_genre.get_books_paths(soup):
-                book_number = ''.join(filter(lambda x: x.isdigit(), book_path))
                 download_book(
                     base_url, book_number, books_dir,
                     images_dir, comments_dir, args.root_dir,
                     args.skip_img, args.skip_txt, args.json_path
                               )
-
+            except requests.exceptions.HTTPError or requests.exceptions.ConnectionError:
+                continue
 
 
 if __name__ == '__main__':

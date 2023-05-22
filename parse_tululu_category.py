@@ -11,9 +11,9 @@ def get_soup(genre_page_url):
     return BeautifulSoup(response.text, 'lxml')
 
 
-def get_books_paths(soup):
-    paths = soup.select("table.d_book")
-    books_paths = []
-    for path in paths:
-        books_paths.append(path.find('a')['href'])
-    return books_paths
+def get_books_urls(soup):
+    urls = soup.select("table.d_book")
+    books_urls = []
+    for url in urls:
+        books_urls.append(url.find('a')['href'])
+    return books_urls
