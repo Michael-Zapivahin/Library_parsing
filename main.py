@@ -135,7 +135,7 @@ def main():
             except requests.exceptions.HTTPError or requests.exceptions.ConnectionError:
                 time.sleep(10)
                 continue
-            for book_path in parse_genre.get_books_book_paths(soup):
+            for book_path in parse_genre.get_books_paths(soup):
                 book_number = ''.join(filter(lambda x: x.isdigit(), book_path))
                 download_book(
                     base_url, book_number, books_dir,

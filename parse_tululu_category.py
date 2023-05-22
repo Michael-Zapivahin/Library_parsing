@@ -11,7 +11,7 @@ def get_soup(genre_page_url):
     return BeautifulSoup(response.text, 'lxml')
 
 
-def get_books_book_paths(soup):
+def get_books_paths(soup):
     paths = soup.select("table.d_book")
     books_paths = []
     for path in paths:
