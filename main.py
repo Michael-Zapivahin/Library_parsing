@@ -63,8 +63,6 @@ def download_book(
         url_processing.download_image(image_url, file_name)
 
 
-
-
 def save_comments(comments_dir, description, root_dir, json_path):
     book_description = {
         'Title: ': description['title'],
@@ -110,14 +108,15 @@ def main():
             genre_page_url = f'{base_url}/l{genre_id}/'
             soup = parse_genre.get_soup(genre_page_url)
             end_id = int(soup.select_one('body table p.center').contents[-1].text)
-        except requests.exceptions.HTTPError as net_error:
-            print(f'{net_error}')
+        except requests.exceptions.HTTPError:
+            print('<h1>The last page number not found</h1>')
             return
-        except requests.exceptions.ConnectionError as connect_error:
-            print(f'{connect_error}')
+        except requests.exceptions.ConnectionError:
+            print('No internet connection')
             return
 
     if args.start_page >= end_id:
+        print(f'number of the start page {args.start_page} more than end page {end_id}')
         return
 
     books_dir = os.path.join(books_dir, f'genre_{genre_id}')
@@ -134,8 +133,8 @@ def main():
         except requests.exceptions.HTTPError or requests.exceptions.ConnectionError:
             time.sleep(10)
             continue
-        for book_path in parse_genre.get_books_urls(soup):
-            book_number = ''.join(filter(lambda x: x.isdigit(), book_path))
+        for book_url in parse_genre.get_books_urls(soup):
+            book_number = ''.join(filter(lambda x: x.isdigit(), book_url))
             try:
                 download_book(
                     base_url, book_number, books_dir,
@@ -143,6 +142,8 @@ def main():
                     args.skip_img, args.skip_txt, args.json_path
                               )
             except requests.exceptions.HTTPError or requests.exceptions.ConnectionError:
+                print(f'internet error for url {base_url}/{book_url}')
+                time.sleep(10)
                 continue
 
 
