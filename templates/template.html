@@ -11,6 +11,21 @@
 
 </head>
 <body>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+          <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
+              <a class="page-link" href="index{{ current_page - 1}}.html">Назад</a>
+          </li>
+          {% for page_number in range(pages_count) %}
+          <li class="page-item {% if page_number+1 == current_page %}active{% endif %}">
+              <a class="page-link" href="index{{ page_number+ 1 }}.html">{{ page_number+1 }}</a>
+          </li>
+          {% endfor %}
+          <li class="page-item {% if pages_count == current_page %}disabled{% endif %}">
+              <a class="page-link" href="index{{ current_page + 1}}.html">Вперед</a>
+          </li>
+      </ul>
+    </nav>
     <div class="card-colums">
             {% for book in books %}
             <div class="col">
@@ -25,6 +40,7 @@
                                     <h5 class="card-title">{{ book[0].title}}</h5>
                                     <p class="card-text">{{ book[0].autor }}</p>
                                     <p class="card-text">{{ book[0].genre }}</p>
+                                    <p class="card-text">test word  dd</p>
                                     <a href="https://tululu.org/b{{book[0].book_id}}/" title="Reading online">reading online</a>
                                 </div>
                             </div>

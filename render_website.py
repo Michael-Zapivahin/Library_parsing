@@ -23,7 +23,7 @@ def main():
         autoescape=select_autoescape(['html'])
     )
     template = env.get_template('templates/template.html')
-    books_for_page = 20
+    books_for_page = 10
     pages_count = 1
     page_id = 1
     json_dir = 'comments/genre_55/'
@@ -46,7 +46,8 @@ def main():
         rendered_page = template.render(
             books=columns_books,
             pages_count=pages_count,
-            number_page=index+1
+            number_page=index+1,
+            current_page=index+1,
         )
         with open(f'pages/index{index+1}.html', 'w', encoding='utf8') as file:
             file.write(rendered_page)

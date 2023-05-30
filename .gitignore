@@ -9,7 +9,8 @@ dvmn.svg
 /uttenv
 /.idea
 /__pycache__
-telegram_log.txt
+/pages
+
 
 ### macOS ###
 # General
@@ -46,3 +47,9 @@ Temporary Items
 .env
 env.textClipping
 
+index1.html
+test.html
+index1.html
+pages/index1.html
+index1.html
+pages/index2.html
