@@ -29,7 +29,7 @@ def main():
     with open(f'{json_path}', 'r') as file:
         book_descriptions = json.load(file)
     image_path = book_descriptions['image'].split('/')
-    image_file = f'images/genre_55/{image_path[-1]}'
+    image_file = f'images/genre_55/book_{image_path[-1]}'
     book_descriptions['image'] = image_file
     # book_descriptions_per_page = list(chunked(book_descriptions, BOOKS_PER_PAGE))
     # pages_count = math.ceil(len(book_descriptions)/BOOKS_PER_PAGE)
@@ -41,7 +41,7 @@ def main():
         number_page=page_id
     )
     os.makedirs('pages', exist_ok=True)
-    with open(f'pages/index{page_id}.html', 'w', encoding='utf8') as file:
+    with open(f'index{page_id}.html', 'w', encoding='utf8') as file:
         file.write(rendered_page)
 
 
