@@ -35,6 +35,7 @@ def main():
             book_description = json.load(file)
         image_path = book_description['image'].split('/')
         image_file = f'images/genre_55/book_{image_path[-1]}'
+        book_description['book_id'] = image_path[-1].split('.')[0]
         book_description['image'] = image_file
         book_descriptions.append(book_description)
     book_descriptions = list(chunked(book_descriptions, 2))
