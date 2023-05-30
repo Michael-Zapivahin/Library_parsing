@@ -76,7 +76,7 @@ def save_comments(comments_dir, description, root_dir, json_path):
         file_name = json_path
     else:
         file_name = comments_dir
-    file_name = f'{os.path.join(file_name, description["title"])}.txt'
+    file_name = f'{os.path.join(file_name, description["title"])}.json'
     with open(file_name, 'wb') as file:
         pickle.dump(book_description, file)
 
