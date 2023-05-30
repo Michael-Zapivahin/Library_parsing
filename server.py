@@ -5,7 +5,7 @@ import math
 import pickle
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from livereload import Server
+from livereload import Server, shell
 from more_itertools import chunked
 
 
@@ -49,10 +49,8 @@ def on_reload():
 
 
 def main():
-    on_reload()
-
     server = Server()
-    server.watch('template.html', on_reload)
+    server.watch('templates/*.html', shell('python render_website.py'))
     server.serve(root='.', default_filename='pages/index1.html')
 
 

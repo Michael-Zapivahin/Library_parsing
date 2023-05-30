@@ -13,12 +13,14 @@
 <body>
     {% for book in books %}
         <div class="card" style="width: 18rem;">
+            <img src="images/{{book.image}}" alt="Image" class="img-fluid">
             <img src="{{book.image}}" class="card-img-left" alt="Image">
             <div class="card-body">
                 <h5 class="card-title">{{book.title}}</h5>
                 <p class="card-text">{{book.autor}}</p>
                  <p class="card-text">{{book.genre}}</p>
-                 <p class="card-text">{{book.comments}}</p>
+                <p class="card-text">{{book.image}}</p>
+                <p class="card-text">test ttttt</p>
             </div>
         </div>
     {% endfor %}
