@@ -52,7 +52,7 @@ def download_book(
             books_dir = os.path.join(root_dir, books_dir)
         file_name = f'{os.path.join(books_dir, file_name)}.txt'
         save_comments(comments_dir, book_description, root_dir, json_path, book_id)
-        with open(file_name, 'w') as file:
+        with open(file_name, 'w', encoding='utf-8') as file:
             file.write(book_response.text)
 
     if not skip_img:
@@ -65,12 +65,6 @@ def download_book(
 
 
 def save_comments(comments_dir, description, root_dir, json_path, book_id):
-    book_description = {
-        'Title: ': description['title'],
-        'Autor: ': description['author'],
-        'Genre: ': description['genres'],
-        'Comments: ': description['comments'],
-    }
     if root_dir:
         file_name = root_dir
     elif json_path:
@@ -79,7 +73,7 @@ def save_comments(comments_dir, description, root_dir, json_path, book_id):
         file_name = comments_dir
     file_name = os.path.join(file_name, f'book_{book_id}.json')
     with open(file_name, 'w') as file:
-        json.dump(book_description, file, ensure_ascii=False)
+        json.dump(description, file, ensure_ascii=False)
 
 
 def main():
