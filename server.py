@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import math
+import pickle
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
@@ -21,16 +22,16 @@ def on_reload():
     # args = parser.parse_args()
     # json_path = args.json_path
 
-    json_path = 'comments/Алиби.txt'
+    json_path = 'comments/genre_55/Кибериада.json'
 
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html'])
     )
-    template = env.get_template('template/template.html')
+    template = env.get_template('templates/template.html')
 
     with open(f'{json_path}', 'r') as file:
-        book_descriptions = json.load(file)
+        book_descriptions = pickle.load(file, encoding="ASCII")
     book_descriptions_per_page = list(chunked(book_descriptions, BOOKS_PER_PAGE))
     pages_count = math.ceil(len(book_descriptions)/BOOKS_PER_PAGE)
     for id, books in enumerate(book_descriptions_per_page, start=1):

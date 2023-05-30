@@ -2,6 +2,7 @@ import argparse
 import os
 import time
 import pickle
+import json
 
 import requests
 from bs4 import BeautifulSoup
@@ -46,11 +47,11 @@ def download_book(
     book_description = parse_book_page(response)
 
     if not skip_txt:
-        file_name = sanitize_filename(book_description['title'])
+        file_name = sanitize_filename(f'book_{book_id}')
         if root_dir:
             books_dir = os.path.join(root_dir, books_dir)
         file_name = f'{os.path.join(books_dir, file_name)}.txt'
-        save_comments(comments_dir, book_description, root_dir, json_path)
+        save_comments(comments_dir, book_description, root_dir, json_path, book_id)
         with open(file_name, 'w') as file:
             file.write(book_response.text)
 
@@ -59,11 +60,11 @@ def download_book(
         expansion = url_processing.get_file_type(image_url)
         if root_dir:
             images_dir = os.path.join(root_dir, images_dir)
-        file_name = f'{os.path.join(images_dir, book_description["title"])}.{expansion}'
+        file_name = os.path.join(images_dir, f'book_{book_id}.{expansion}')
         url_processing.download_image(image_url, file_name)
 
 
-def save_comments(comments_dir, description, root_dir, json_path):
+def save_comments(comments_dir, description, root_dir, json_path, book_id):
     book_description = {
         'Title: ': description['title'],
         'Autor: ': description['author'],
@@ -76,9 +77,9 @@ def save_comments(comments_dir, description, root_dir, json_path):
         file_name = json_path
     else:
         file_name = comments_dir
-    file_name = f'{os.path.join(file_name, description["title"])}.json'
-    with open(file_name, 'wb') as file:
-        pickle.dump(book_description, file)
+    file_name = os.path.join(file_name, f'book_{book_id}.json')
+    with open(file_name, 'w') as file:
+        json.dump(book_description, file, ensure_ascii=False)
 
 
 def main():
