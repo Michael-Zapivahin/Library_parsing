@@ -1,7 +1,7 @@
 import json
 import os
 import glob
-from more_itertools import chunked
+from more_itertools import chunked, sliced
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import livereload
 
@@ -23,7 +23,7 @@ def main():
         autoescape=select_autoescape(['html'])
     )
     template = env.get_template('templates/template.html')
-    books_for_page = 10
+    books_for_page = 20
     pages_count = 1
     page_id = 1
     json_dir = 'comments/genre_55/'
@@ -38,15 +38,18 @@ def main():
         book_description['book_id'] = image_path[-1].split('.')[0]
         book_description['image'] = image_file
         book_descriptions.append(book_description)
-    book_descriptions = list(chunked(book_descriptions, 2))
-    print(book_descriptions[0][0])
-    rendered_page = template.render(
-        books=book_descriptions,
-        pages_count=pages_count,
-        number_page=page_id
-    )
-    with open(f'index{page_id}.html', 'w', encoding='utf8') as file:
-        file.write(rendered_page)
+
+    pages = list(sliced(book_descriptions, books_for_page))
+    pages_count = len(pages)
+    for index, page_books in enumerate(pages):
+        columns_books = list(chunked(page_books, 2))
+        rendered_page = template.render(
+            books=columns_books,
+            pages_count=pages_count,
+            number_page=index+1
+        )
+        with open(f'pages/index{index+1}.html', 'w', encoding='utf8') as file:
+            file.write(rendered_page)
 
 
 if __name__ == '__main__':
