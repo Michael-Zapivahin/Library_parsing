@@ -18,6 +18,5 @@ def get_file_type(url):
 
 
 def check_for_redirect(response):
-    return
     if response.history:
         raise requests.exceptions.HTTPError('redirect')

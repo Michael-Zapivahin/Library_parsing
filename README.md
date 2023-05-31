@@ -8,7 +8,6 @@ Program downloads books from https://tululu.org/
 
 ## How to install
 
-
 Python3 should already be installed. 
 Use pip or pip3, if there is a conflict with Python2) to install dependencies:
 
