@@ -2,21 +2,11 @@ import json
 import os
 import glob
 from more_itertools import chunked, sliced
-from http.server import HTTPServer, SimpleHTTPRequestHandler
-import livereload
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from os import sep
 
 
 def main():
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument(
-    #     '-j', '--json_path', help='Путь к json файлу с результатами',
-    #     default='comments'
-    # )
-    # args = parser.parse_args()
-    # json_path = args.json_path
 
     env = Environment(
         loader=FileSystemLoader('.'),
@@ -24,8 +14,6 @@ def main():
     )
     template = env.get_template('templates/template.html')
     books_for_page = 10
-    pages_count = 1
-    page_id = 1
     json_dir = 'comments/genre_55/'
     os.makedirs('pages', exist_ok=True)
 
