@@ -40,6 +40,10 @@
                                 <div class="col-md-8">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ book_card.title }}</h5>
+                                        <h5 class="card-title">{{ book_card.autor }}</h5>
+                                        {% for genre in book_card.genres %}
+                                            <span class="badge badge-pill badge-light mb-3">{{genre}}</span>
+                                        {% endfor %}
                                         <p class="card-text"><a href="https://tululu.org/b{{ book_card.book_id }}"
                                                                 target="_blank">Читать</a></p>
                                     </div>
