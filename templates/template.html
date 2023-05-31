@@ -11,51 +11,48 @@
 
 </head>
 <body>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
-                <a class="page-link" href="index{{ current_page - 1}}.html">Назад</a>
-            </li>
-            {% for page_number in range(pages_count) %}
-            <li class="page-item {% if page_number+1 == current_page %}active{% endif %}">
-                <a class="page-link" href="index{{ page_number+ 1 }}.html">{{ page_number+1 }}</a>
-            </li>
-            {% endfor %}
-            <li class="page-item {% if pages_count == current_page %}disabled{% endif %}">
-                <a class="page-link" href="index{{ current_page + 1}}.html">Вперед</a>
-            </li>
-        </ul>
-    </nav>
-    <div class="card-colums">
-        {% for columns_books in books %}
-        <div class="container">
-            {% for book in columns_books %}
-            <div class="col">
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row no-gutters">
-                        <div class="col">
-                            <div class="col-md-4">
-                                <img src="../{{book.image}}" class="card-img" alt="{{ book.image }}">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ book.title}}</h5>
-                                    <p class="card-text">{{ book.autor }}</p>
-                                    <p class="card-text">{{ book.genre }}</p>
-                                    <p class="card-text">test word dd</p>
-                                    <a href="https://tululu.org/b{{book[0].book_id}}/" title="Reading online">reading
-                                        online</a>
+    <div class="container">
+        <div class="row mx-auto" style="width: 100%;">
+            <nav class="mt-4" aria-label="Page books navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
+                        <a class="page-link" href="index{{ current_page - 1}}.html">Назад</a>
+                    </li>
+                    {% for page_number in range(pages_count) %}
+                    <li class="page-item {% if page_number+1 == current_page %}active{% endif %}">
+                        <a class="page-link" href="index{{ page_number+ 1 }}.html">{{ page_number+1 }}</a>
+                    </li>
+                    {% endfor %}
+                    <li class="page-item {% if pages_count == current_page %}disabled{% endif %}">
+                        <a class="page-link" href="index{{ current_page + 1}}.html">Вперед</a>
+                    </li>
+                </ul>
+                <div class="row">
+                    {% for columns_books in books %}
+                    {% for book_card in columns_books %}
+                    <div class="col">
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row no-gutters">
+                                <div class="col-md-4">
+                                    <img src="../{{ book_card.image|urlencode }}" class="card-img"
+                                         alt="{{ book_card.title }}">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ book_card.title }}</h5>
+                                        <p class="card-text"><a href="https://tululu.org/b{{ book_card.book_id }}"
+                                                                target="_blank">Читать</a></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="w-100"></div>
                     </div>
+                    {% endfor %}
+                    <div class="w-100"></div>
+                    {% endfor %}
                 </div>
-            </div>
-            {% endfor %}
+            </nav>
         </div>
-        <div class="w-100"></div>
-        {% endfor %}
     </div>
 
 
