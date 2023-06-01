@@ -2,8 +2,13 @@
 
 Program downloads books from https://tululu.org/
 
+## Простой вариант использования
+Скачайте [текущий репозиторий](https://github.com/Michael-Zapivahin/library_parsing/refs/heads/main.zip) и откройте `index.html`. Файлы должны быть разархивированы
+
 
 ![img.png](img.png)
+
+
 
 
 ## How to install
