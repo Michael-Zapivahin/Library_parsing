@@ -71,9 +71,23 @@ def save_comments(comments_dir, description, root_dir, json_path, book_id):
         file_name = json_path
     else:
         file_name = comments_dir
-    file_name = os.path.join(file_name, f'book_{book_id}.json')
+    file_name = os.path.join(file_name, f'comments.json')
+    try:
+        with open(file_name, "r",  encoding='utf-8') as file:
+            file_data = file.read()
+    except FileNotFoundError:
+        comments = []
+        comments[book_id] = description
+        with open(file_name, 'w') as file:
+            json.dump(description, file, ensure_ascii=False)
+            return
+    comments = json.loads(file_data)
+    comments[book_id] = description
     with open(file_name, 'w') as file:
-        json.dump(description, file, ensure_ascii=False)
+        json.dump(comments, file, ensure_ascii=False)
+        return
+
+
 
 
 def main():
