@@ -4,13 +4,9 @@ Program downloads books from https://tululu.org/
 
 [Check out the demo version of the site: ](https://michael-zapivahin.github.io/library_parsing/pages/index1.html)
 
-## Простой вариант использования
+## Easy start:
 
-Download [текущий репозиторий](https://github.com/Michael-Zapivahin/library_parsing/blob/main/library.zip) 
-
-and open the file `index.html`.
-[archive.zip](archive.zip)
-
+Download [archive.zip](archive.zip) and open the file `index.html`.
 
 ## It's look like as:
 
