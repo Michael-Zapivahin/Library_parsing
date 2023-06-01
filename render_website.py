@@ -20,7 +20,7 @@ def on_reload():
 
     book_descriptions = []
     for filepath in glob.glob(os.path.join(json_dir, '*.json')):
-        with open(filepath) as file:
+        with open(filepath, encoding='utf-8') as file:
             book_description = json.load(file)
         image_path = book_description['image'].split('/')
         image_dir = os.path.join('images', 'genre_55')

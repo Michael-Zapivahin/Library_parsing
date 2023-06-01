@@ -6,7 +6,7 @@ Program downloads books from https://tululu.org/
 
 ## Easy start:
 
-Download [archive.zip](https://github.com/Michael-Zapivahin/library_parsing/blob/main/library.zip) and open the file `index.html`.
+Download [library.zip](https://github.com/Michael-Zapivahin/library_parsing/blob/main/library.zip) and open the file `index.html`.
 
 ## It's look like as:
 
