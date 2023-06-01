@@ -2,9 +2,17 @@
 
 Program downloads books from https://tululu.org/
 
-## Простой вариант использования
-Скачайте [текущий репозиторий](https://github.com/Michael-Zapivahin/library_parsing/refs/heads/main.zip) и откройте `index.html`. Файлы должны быть разархивированы
+[Check out the demo version of the site: ](https://michael-zapivahin.github.io/library_parsing/pages/index1.html)
 
+## Простой вариант использования
+
+Download [текущий репозиторий](https://github.com/Michael-Zapivahin/library_parsing/blob/main/library.zip) 
+
+and open the file `index.html`.
+[archive.zip](archive.zip)
+
+
+## It's look like as:
 
 ![img.png](img.png)
 
