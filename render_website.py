@@ -1,6 +1,5 @@
 import json
 import os
-import glob
 from more_itertools import chunked, sliced
 from livereload import Server
 
