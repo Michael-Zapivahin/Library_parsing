@@ -52,7 +52,7 @@
                                style="text-align:left;font-size:8pt;color:#6d7071;margin-bottom:10px;">
                             <tr>
                                 <td style="text-align:left;" colspan="3"><p
-                                            style="padding:0 0 2px 0;margin:0;font-size:11px;border-bottom:1px solid #808080;width:240px;">Четверг, 01 июня, 11:17</p>
+                                            style="padding:0 0 2px 0;margin:0;font-size:11px;border-bottom:1px solid #808080;width:240px;">Четверг, 01 июня, 11:55</p>
                                 </td>
                             </tr><tr><td style="text-align:left;padding-bottom:50px;" colspan="3"><a href="/login/"><b>Авторизация</b></a> &nbsp;&nbsp; <a href="/registration/"><b>Регистрация</b></a></td></tr></table>
                     </td>
@@ -267,7 +267,7 @@
 Как тают веков снега.<br/>
 И я обниму тебя в ответ.<br/>
 И прочь улетит тоска.</i></p><p class="xmini right"><i>01.07.10 - 11:51<br/>Нина</i></p><p class="xmini right"><a href="/product/" title="Читать все произведения онлайн">Читать онлайн произведения</a></p><hr/><span class="xmini">Хотите чтобы ваше произведение или ваш любимый стишок появились здесь? <a href="/adding/">добавьте его!</a></span><br/></div>
-<hr style="width:260px;background:#fff;border:1px solid #fff;"/></td></tr><tr><td style="background:#f2f2f2;border:1px solid #d7d7d7;" colspan="3"><table class="bgtab" cellpadding="0" cellspacing="0" width="100%"><tr><td><br/></td><td valign="bottom"><p class="xsmall right">copyright &copy; Бесплатная библиотека, &nbsp;&nbsp; контакты: <a href="/cdn-cgi/l/email-protection#85ecebe3eac5f1f0e9f0e9f0abeaf7e2"><span class="__cf_email__" data-cfemail="137a7d757c5367667f667f663d7c6174">[email&#160;protected]</span></a></p></td></tr></table></td></tr></table>
+<hr style="width:260px;background:#fff;border:1px solid #fff;"/></td></tr><tr><td style="background:#f2f2f2;border:1px solid #d7d7d7;" colspan="3"><table class="bgtab" cellpadding="0" cellspacing="0" width="100%"><tr><td><br/></td><td valign="bottom"><p class="xsmall right">copyright &copy; Бесплатная библиотека, &nbsp;&nbsp; контакты: <a href="/cdn-cgi/l/email-protection#6b02050d042b1f1e071e071e4504190c"><span class="__cf_email__" data-cfemail="92fbfcf4fdd2e6e7fee7fee7bcfde0f5">[email&#160;protected]</span></a></p></td></tr></table></td></tr></table>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>(function(p,u,s,h,x){
         h=u.getElementsByTagName('head')[0];

@@ -17,15 +17,16 @@ def on_reload():
     books_for_page = 10
     json_dir = os.path.join('comments', 'genre_55')
     os.makedirs('pages', exist_ok=True)
+    file_name = os.path.join(json_dir, 'comments.json')
+    with open(file_name, "r", encoding='utf-8') as file:
+        file_data = file.read()
+    book_comments = json.loads(file_data)
 
+    image_dir = os.path.join('images', 'genre_55')
     book_descriptions = []
-    for filepath in glob.glob(os.path.join(json_dir, '*.json')):
-        with open(filepath, encoding='utf-8') as file:
-            book_description = json.load(file)
+    for key, book_description in book_comments.items():
         image_path = book_description['image'].split('/')
-        image_dir = os.path.join('images', 'genre_55')
         image_file = os.path.join(image_dir, f'book_{image_path[-1]}')
-        book_description['book_id'] = image_path[-1].split('.')[0]
         book_description['image'] = image_file
         book_descriptions.append(book_description)
 
