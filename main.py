@@ -89,8 +89,6 @@ def save_comments(comments_dir, description, root_dir, json_path, book_id):
         return
 
 
-
-
 def main():
     load_dotenv()
     books_dir = os.getenv('BOOKS_DIR', default='books')
