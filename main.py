@@ -151,7 +151,7 @@ def main():
                     args.skip_img, args.skip_txt, args.json_path
                               )
             except requests.exceptions.HTTPError or requests.exceptions.ConnectionError:
-                print(f'internet error for url {base_url}/{book_url}')
+                print(f'internet error for url {base_url}{book_url}')
                 time.sleep(10)
                 continue
 
