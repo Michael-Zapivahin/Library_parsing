@@ -14,9 +14,9 @@ def on_reload():
     )
     template = env.get_template(os.path.join('templates', 'template.html'))
     books_for_page = 10
-    json_dir = os.path.join('comments', 'genre_55')
+    json_dir = os.path.join('descriptions', 'genre_55')
     os.makedirs('pages', exist_ok=True)
-    file_name = os.path.join(json_dir, 'comments.json')
+    file_name = os.path.join(json_dir, 'descriptions.json')
     with open(file_name, "r", encoding='utf-8') as file:
         file_data = file.read()
     book_comments = json.loads(file_data)
@@ -28,6 +28,7 @@ def on_reload():
         image_file = os.path.join(image_dir, f'book_{image_path[-1]}')
         book_description['image'] = image_file
         book_descriptions.append(book_description)
+        book_description['book_id'] = key
 
     pages = list(sliced(book_descriptions, books_for_page))
     pages_count = len(pages)

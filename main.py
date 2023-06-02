@@ -46,6 +46,17 @@ def download_book(
     url_processing.check_for_redirect(response)
     book_description = parse_book_page(response)
 
+    if not skip_img:
+        image_url = f'{base_url}/{book_description["image"]}'
+        if image_url.find('nopic.gif') > 0:
+            return
+
+        expansion = url_processing.get_file_type(image_url)
+        if root_dir:
+            images_dir = os.path.join(root_dir, images_dir)
+        file_name = os.path.join(images_dir, f'book_{book_id}.{expansion}')
+        url_processing.download_image(image_url, file_name)
+
     if not skip_txt:
         file_name = sanitize_filename(f'book_{book_id}')
         if root_dir:
@@ -55,14 +66,6 @@ def download_book(
         with open(file_name, 'w', encoding='utf-8') as file:
             file.write(book_response.text)
 
-    if not skip_img:
-        image_url = f'{base_url}/{book_description["image"]}'
-        expansion = url_processing.get_file_type(image_url)
-        if root_dir:
-            images_dir = os.path.join(root_dir, images_dir)
-        file_name = os.path.join(images_dir, f'book_{book_id}.{expansion}')
-        url_processing.download_image(image_url, file_name)
-
 
 def save_comments(comments_dir, description, root_dir, json_path, book_id):
     if root_dir:
@@ -71,7 +74,7 @@ def save_comments(comments_dir, description, root_dir, json_path, book_id):
         file_name = json_path
     else:
         file_name = comments_dir
-    file_name = os.path.join(file_name, f'comments.json')
+    file_name = os.path.join(file_name, f'descriptions.json')
     try:
         with open(file_name, "r",  encoding='utf-8') as file:
             file_data = file.read()
@@ -94,7 +97,7 @@ def main():
     os.makedirs(books_dir, exist_ok=True)
     images_dir = os.getenv('IMAGES_DIR', default='images')
     os.makedirs(images_dir, exist_ok=True)
-    comments_dir = os.getenv('COMMENTS_DIR', default='comments')
+    comments_dir = os.getenv('COMMENTS_DIR', default='descriptions')
     os.makedirs(comments_dir, exist_ok=True)
 
     parser = argparse.ArgumentParser(description='Script download books')
@@ -109,6 +112,7 @@ def main():
     end_id = args.end_page
     base_url = 'https://tululu.org'
     genre_id = 55
+    start_page = args.start_page
 
     if not end_id:
         try:
@@ -133,7 +137,7 @@ def main():
     os.makedirs(images_dir, exist_ok=True)
     os.makedirs(comments_dir, exist_ok=True)
 
-    for page in range(args.start_page, end_id + 1, 1):
+    for page in range(start_page, end_id + 1, 1):
         genre_page_url = f"{base_url}/l{genre_id}/{page}/"
         try:
             soup = parse_genre.get_soup(genre_page_url)

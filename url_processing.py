@@ -11,6 +11,7 @@ def download_image(url, file_name, payload=None):
         file.write(response.content)
 
 
+
 def get_file_type(url):
     parsed_url = urlparse(url)
     path = parsed_url.path.rstrip("/").split("/")[-1]
@@ -18,5 +19,5 @@ def get_file_type(url):
 
 
 def check_for_redirect(response):
-    if response.history:
+    if len(response.history) > 1:
         raise requests.exceptions.HTTPError('redirect')
