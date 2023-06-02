@@ -29,6 +29,7 @@ def on_reload():
         book_description['image'] = image_file
         book_descriptions.append(book_description)
         book_description['book_id'] = key
+        book_description['genre'] = '55'
 
     pages = list(sliced(book_descriptions, books_for_page))
     pages_count = len(pages)
