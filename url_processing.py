@@ -11,7 +11,6 @@ def download_image(url, file_name, payload=None):
         file.write(response.content)
 
 
-
 def get_file_type(url):
     parsed_url = urlparse(url)
     path = parsed_url.path.rstrip("/").split("/")[-1]

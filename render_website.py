@@ -5,7 +5,6 @@ import urllib.parse
 from more_itertools import chunked, sliced
 from livereload import Server
 from dotenv import load_dotenv
-
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 server = Server()
@@ -27,7 +26,7 @@ def on_reload():
     columns_count = 2
     genre_id = '55'
 
-    descriptions_dir = os.path.join(descriptions_dir, 'genre_55')
+    descriptions_dir = os.path.join(descriptions_dir, f'genre_{genre_id}')
     file_name = os.path.join(descriptions_dir, 'descriptions.json')
     with open(file_name, 'r', encoding='utf-8') as file:
         book_comments = json.load(file)
@@ -59,7 +58,6 @@ def on_reload():
 
 
 def main():
-
     on_reload()
 
 

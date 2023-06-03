@@ -74,7 +74,8 @@ def save_comments(comments_dir, description, root_dir, json_path, book_id):
         file_name = json_path
     else:
         file_name = comments_dir
-    file_name = os.path.join(file_name, f'descriptions.json')
+
+    file_name = os.path.join(file_name, 'descriptions.json')
     try:
         with open(file_name, "r",  encoding='utf-8') as file:
             file_data = file.read()
