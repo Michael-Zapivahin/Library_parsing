@@ -46,9 +46,9 @@
         </ul>
       </nav>
     </div>
-    {% for columns_books in books %}
+    {% for page_column in page_columns %}
       <div class="row">
-        {% for book_card in columns_books %}
+        {% for book_card in page_column %}
           <div class="col">
             <div class="card mb-3" style="max-width: 540px">
               <div class="row no-gutters">
@@ -79,7 +79,7 @@
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="../static/js/jquery-3.3.1.slim.min.js"></script>
   <script src="../static/js/popper.min.js"></script>
-  <script src="../static/js/bootstrap.min.js"></script>
+  <script src="../static/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
