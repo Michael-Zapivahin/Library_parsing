@@ -1,5 +1,7 @@
 import json
 import os
+import urllib.parse
+
 from more_itertools import chunked, sliced
 from livereload import Server
 from dotenv import load_dotenv
@@ -23,6 +25,7 @@ def on_reload():
     template = env.get_template(os.path.join('templates', 'template.html'))
     books_for_page = 10
     columns_count = 2
+    genre_id = '55'
 
     descriptions_dir = os.path.join(descriptions_dir, 'genre_55')
     file_name = os.path.join(descriptions_dir, 'descriptions.json')
@@ -31,13 +34,15 @@ def on_reload():
 
     image_dir = os.path.join(images_dir, 'genre_55')
     book_descriptions = []
-    for key, book_description in book_comments.items():
+    for book_id, book_description in book_comments.items():
         image_path = book_description['image'].split('/')
         image_file = os.path.join(image_dir, f'book_{image_path[-1]}')
         book_description['image'] = image_file
+        book_description['book_id'] = book_id
+        book_description['genre'] = genre_id
+        book_url = urllib.parse.quote(f'/books/genre_{genre_id}/book_{book_id}.txt', safe='/')
+        book_description['book_url'] = book_url
         book_descriptions.append(book_description)
-        book_description['book_id'] = key
-        book_description['genre'] = '55'
 
     pages = list(sliced(book_descriptions, books_for_page))
     pages_count = len(pages)
@@ -56,10 +61,6 @@ def on_reload():
 def main():
 
     on_reload()
-
-    # server = Server()
-    # server.watch('template.html', on_reload)
-    # server.serve(root='.', default_filename=os.path.join('pages', 'index1.html'))
 
 
 if __name__ == '__main__':

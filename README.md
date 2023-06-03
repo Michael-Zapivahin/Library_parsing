@@ -4,9 +4,11 @@ Program downloads books from https://tululu.org/
 
 [Check out the demo version of the site: ](https://michael-zapivahin.github.io/library_parsing/pages/index1.html)
 
-## Easy start:
+## How to start an offline library:
 
-Download [library.zip](https://github.com/Michael-Zapivahin/library_parsing/blob/main/library.zip) and open the file `index.html`.
+Download [library.zip](https://github.com/Michael-Zapivahin/library_parsing/blob/main/library.zip) into our computer.
+
+Unzip the archive and open the file:  `index.html`.
 
 ## It's look like as:
 
@@ -32,7 +34,7 @@ pip install -r requirements.txt
 
 `IMAGES_DIR` folder for saving your pictures, `default='images'`
 
-`COMMENTS_DIR` folder for saving book's comment `default='comments'`
+`COMMENTS_DIR` folder for saving book's descriptions `default='descriptions'`
 
 ### How to start
 
@@ -42,12 +44,23 @@ python main.py --start_page 0 --end_page 2
 ```
 
 ### Here is some examples:
+
+#### for downloads and parsing books:
 ```
-python3 parse_tululu_category.py --start_page 301 --end_page 303 --dest_folder ~/fantastic_books
 
-python3 parse_tululu_category.py --start_page 700 --dest_folder ~/fantastic_books --json_path ~/fantastic_books/json_folder/data.json --skip_imgs
+python parse_tululu_category.py --start_page 301 --end_page 303 --dest_folder ~/fantastic_books
 
-python3 parse_tululu_category.py --end_page 4 --skip_imgs --skip_txt --json_path ~/path/to/json/folder/books.json
+python parse_tululu_category.py --start_page 700 --dest_folder ~/fantastic_books --json_path ~/fantastic_books/json_folder/data.json --skip_imgs
+
+python parse_tululu_category.py --end_page 4 --skip_imgs --skip_txt --json_path ~/path/to/json/folder/books.json
+
+```
+
+#### for make pages
+```
+
+ python render_website.py
+
 ```
 
 ### Commands' line parameters:
