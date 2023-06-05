@@ -7,8 +7,6 @@ from livereload import Server
 from dotenv import load_dotenv
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-server = Server()
-
 
 def on_reload():
     load_dotenv()
@@ -59,11 +57,13 @@ def on_reload():
 
 def main():
     on_reload()
+    server = Server()
+    server.watch('templates/template.html', on_reload)
+    server.serve()
 
 
 if __name__ == '__main__':
     main()
 
 
-server.watch('templates/template.html', on_reload)
-server.serve()
+
