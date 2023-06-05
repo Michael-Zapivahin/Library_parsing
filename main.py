@@ -96,7 +96,7 @@ def main():
     os.makedirs(books_dir, exist_ok=True)
     images_dir = os.getenv('IMAGES_DIR', default='images')
     os.makedirs(images_dir, exist_ok=True)
-    comments_dir = os.getenv('COMMENTS_DIR', default='descriptions')
+    comments_dir = os.getenv('DESCRIPTION_DIR', default='descriptions')
     os.makedirs(comments_dir, exist_ok=True)
 
     parser = argparse.ArgumentParser(description='Script download books')

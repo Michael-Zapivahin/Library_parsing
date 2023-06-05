@@ -12,9 +12,9 @@ server = Server()
 
 def on_reload():
     load_dotenv()
-    descriptions_dir = os.getenv('COMMENTS_DIR', default='descriptions')
+    descriptions_dir = os.getenv('DESCRIPTION_DIR', default=os.path.join('media', 'descriptions'))
     os.makedirs(descriptions_dir, exist_ok=True)
-    images_dir = os.getenv('IMAGES_DIR', default='descriptions')
+    images_dir = os.getenv('IMAGES_DIR', default=os.path.join('media', 'images'))
     os.makedirs(images_dir, exist_ok=True)
     os.makedirs('pages', exist_ok=True)
     env = Environment(
