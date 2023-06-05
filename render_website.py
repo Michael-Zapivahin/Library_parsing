@@ -39,7 +39,7 @@ def on_reload():
         book_description['image'] = image_file
         book_description['book_id'] = book_id
         book_description['genre'] = genre_id
-        book_url = urllib.parse.quote(f'/books/genre_{genre_id}/book_{book_id}.txt', safe='/')
+        book_url = urllib.parse.quote(f'../media/books/genre_{genre_id}/book_{book_id}.txt', safe='/')
         book_description['book_url'] = book_url
         book_descriptions.append(book_description)
 
