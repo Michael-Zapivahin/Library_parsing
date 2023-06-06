@@ -49,11 +49,9 @@ python main.py --start_page 0 --end_page 2
 python render_website.py
 
 ```
-```
 
-http://127.0.0.1:5500
+[Link to local version of site](http://127.0.0.1:5500)
 
-```
 
 ### Here is some examples:
 

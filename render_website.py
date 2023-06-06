@@ -8,12 +8,11 @@ from dotenv import load_dotenv
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
+DESCRIPTION_DIR = 'media/descriptions'
+IMAGES_DIR = 'media/images'
+
+
 def on_reload():
-    load_dotenv()
-    descriptions_dir = os.getenv('DESCRIPTION_DIR', default=os.path.join('media', 'descriptions'))
-    os.makedirs(descriptions_dir, exist_ok=True)
-    images_dir = os.getenv('IMAGES_DIR', default=os.path.join('media', 'images'))
-    os.makedirs(images_dir, exist_ok=True)
     os.makedirs('pages', exist_ok=True)
     env = Environment(
         loader=FileSystemLoader('.'),
@@ -24,12 +23,12 @@ def on_reload():
     columns_count = 2
     genre_id = '55'
 
-    descriptions_dir = os.path.join(descriptions_dir, f'genre_{genre_id}')
+    descriptions_dir = os.path.join(DESCRIPTION_DIR, f'genre_{genre_id}')
     file_name = os.path.join(descriptions_dir, 'descriptions.json')
     with open(file_name, 'r', encoding='utf-8') as file:
         book_comments = json.load(file)
 
-    image_dir = os.path.join(images_dir, 'genre_55')
+    image_dir = os.path.join(IMAGES_DIR, 'genre_55')
     book_descriptions = []
     for book_id, book_description in book_comments.items():
         image_path = book_description['image'].split('/')
@@ -56,6 +55,12 @@ def on_reload():
 
 
 def main():
+    load_dotenv()
+    DESCRIPTION_DIR = os.getenv('DESCRIPTION_DIR', default=os.path.join('media', 'descriptions'))
+    os.makedirs(DESCRIPTION_DIR, exist_ok=True)
+    IMAGES_DIR = os.getenv('IMAGES_DIR', default=os.path.join('media', 'images'))
+    os.makedirs(IMAGES_DIR, exist_ok=True)
+
     on_reload()
     server = Server()
     server.watch('templates/template.html', on_reload)
