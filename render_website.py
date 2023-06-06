@@ -4,7 +4,6 @@ import urllib.parse
 
 from more_itertools import chunked, sliced
 from livereload import Server
-from dotenv import load_dotenv
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
@@ -55,11 +54,6 @@ def on_reload():
 
 
 def main():
-    load_dotenv()
-    DESCRIPTION_DIR = os.getenv('DESCRIPTION_DIR', default=os.path.join('media', 'descriptions'))
-    os.makedirs(DESCRIPTION_DIR, exist_ok=True)
-    IMAGES_DIR = os.getenv('IMAGES_DIR', default=os.path.join('media', 'images'))
-    os.makedirs(IMAGES_DIR, exist_ok=True)
 
     on_reload()
     server = Server()
@@ -69,6 +63,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
